@@ -1,0 +1,28 @@
+name: Use Reusable Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-default:
+    uses: ./.github/workflows/reusable-test.yml
+    secrets:
+      API_KEY: ${{ secrets.API_KEY }}
+
+  test-custom:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: '3.12'
+      test-command: 'pytest -v --cov'
+    secrets:
+      API_KEY: ${{ secrets.API_KEY }}
+
+  report:
+    needs: test-default
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display test result
+        run: echo "Test result was ${{ needs.test-default.outputs.test-result }}"

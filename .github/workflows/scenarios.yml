@@ -1,0 +1,32 @@
+name: Test Scenarios Matrix
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-scenarios:
+    name: Test ${{ matrix.scenario }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scenario:
+          - name: 'basic-operations'
+            marker: 'basic_operations'
+          - name: 'edge-cases'
+            marker: 'edge_cases'
+          - name: 'performance'
+            marker: 'performance'
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run ${{ matrix.scenario.name }} tests
+        run: pytest -v -m "${{ matrix.scenario.marker }}"
