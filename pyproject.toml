@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple-calculator"
+version = "0.1.0"
+description = "A simple calculator for learning GitHub Actions"
+authors = [{name = "Your Name"}]
+requires-python = ">=3.9"
+
+[tool.setuptools]
+py-modules = ["calculator"]
